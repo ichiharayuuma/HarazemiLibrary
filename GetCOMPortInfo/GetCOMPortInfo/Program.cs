@@ -7,6 +7,7 @@ using System.IO.Ports;
 using System.Linq;
 using System.Management;
 using System.Runtime.Versioning;
+using System.Text;
 using System.Text.RegularExpressions;
 
 class Program
@@ -15,6 +16,10 @@ class Program
 
     static void Main()
     {
+        // Unityと連携させるためにUTF8で出力
+        // SJISではエディタ上で動いてもビルドした先では動かない
+        Console.OutputEncoding = Encoding.UTF8;
+
         // COMポート一覧の取得
         // COMxxの数字順に並べ替えて取得
         var ports = SerialPort.GetPortNames().OrderBy(p => int.Parse(p.Substring(3))).ToList(); // 3はCOMの3文字を取り除くため
@@ -49,7 +54,7 @@ class Program
         {
             if (map.TryGetValue(port, out string? devName))
             {
-                Console.WriteLine($"{port}\n{devName}");
+                Console.WriteLine($"N{port}\nD{devName}");
             }
             else
             {
